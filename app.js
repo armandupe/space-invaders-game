@@ -1,9 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
+
+    //Создаем игровое поле
+    const squaresTotal = 225;
+    for (let i = 0; i < squaresTotal; i++) {
+        let newDiv = document.createElement("div"); 
+        const playField = document.querySelector('.grid');
+        playField.appendChild(newDiv); 
+    }
+
     const squares = document.querySelectorAll('.grid div');
     const resultDisplay = document.querySelector('#result');
     let width = 15;
     let currentShooterIndex = 202;
-    let currentInvaderIndex= 0;
+    let currentInvaderIndex = 0;
     let alienInvadersTakenDown = [];
     let result = 0;
     let direction = 1;
@@ -19,6 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     squares[currentShooterIndex].classList.add('shooter');
 
+    // Двигаем корабль
     function moveShooter(e) {
         squares[currentShooterIndex].classList.remove('shooter');
         console.log(e);
@@ -33,7 +43,9 @@ document.addEventListener('DOMContentLoaded', () => {
         squares[currentShooterIndex].classList.add('shooter');
     }
     document.addEventListener('keydown', moveShooter);
+    //
 
+    // Двигаем пришельцев
     function moveInvaders() {
         const leftEdge = alienInvaders[0] % width === 0;
         const rightEdge = alienInvaders[alienInvaders.length - 1] % width === width - 1;
@@ -44,6 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (leftEdge) direction = 1;
             else direction = -1;
         }
+
         for (let i = 0; i <= alienInvaders.length - 1; i++) {
            squares[alienInvaders[i]].classList.remove('invader');
         }
@@ -61,19 +74,23 @@ document.addEventListener('DOMContentLoaded', () => {
             squares[alienInvaders[i]].classList.add('boom');
             clearInterval(invaderId);
         }
+
         for (let i = 0; i <= alienInvaders.length - 1; i++) {
             if(alienInvaders[i] > (squares.length - (width - 1))) {
                 resultDisplay.textContent = 'Game Over';
                 clearInterval(invaderId);
             }
         }
+        
         if (alienInvadersTakenDown.length === alienInvaders.length) {
             resultDisplay.textContent = 'You Win!';
             clearInterval(invaderId);
         }
     }
     invaderId = setInterval(moveInvaders, 500);
+    //
 
+    // Стреляем
     function shoot(e) {
         let laserId;
         let currentLaserIndex = currentShooterIndex;
@@ -107,12 +124,5 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     document.addEventListener('keyup', shoot);
-
-
-
-
-
-
-
-
+    //
 })
