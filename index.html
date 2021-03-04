@@ -12,11 +12,17 @@
     <script src="app.js" charset="utf-8"></script>
 </head>
 <body>
-    <h3 class="score">Иношапотян повержено:
+    <h3 class="score">Инопланетян повержено:
         <span id="result"></span>
     </h3>
     <section class="grid nes-container is-dark"></section>
     <section class="main-buttons">
+        <section class="openfire">
+            <button type="button" class="openfire-button nes-btn is-error">Огонь!</button>
+        </section>
+        <section class="restart-game">
+            <button type="button" class="restart-button nes-btn">Перезапустить</button>
+        </section>
         <section class="modal">
             <button type="button" class="nes-btn is-primary" onclick="document.getElementById('dialog-dark-rounded').showModal();">Понравилось?</button>
             <dialog class="nes-dialog" id="dialog-dark-rounded">
@@ -28,8 +34,11 @@
                 </form>
             </dialog>
         </section>
-        <section class="openfire">
-            <button type="button" class="openfire-button nes-btn is-error">Огонь!</button>
+        <section class="increase-speed">
+            <button type="button" class="nes-btn speed-up-button">Увеличить скорость</button>
+        </section>
+        <section class="decrease-speed">
+            <button type="button" class="nes-btn speed-down-button">Уменьшить скорость</button>
         </section>
     </section>
 </body>
