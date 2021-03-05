@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="utf-8">
     <title>Space Invaders</title>
@@ -12,33 +12,22 @@
     <script src="app.js" charset="utf-8"></script>
 </head>
 <body>
-    <h3 class="score">Инопланетян повержено:
+    <h3 class="score nes-container is-dark">Инопланетян повержено:
         <span id="result"></span>
     </h3>
     <section class="grid nes-container is-dark"></section>
-    <section class="main-buttons">
+    <section class="main-buttons nes-container is-dark">
         <section class="openfire">
             <button type="button" class="openfire-button nes-btn is-error">Огонь!</button>
         </section>
         <section class="restart-game">
-            <button type="button" class="restart-button nes-btn">Перезапустить</button>
-        </section>
-        <section class="modal">
-            <button type="button" class="nes-btn is-primary" onclick="document.getElementById('dialog-dark-rounded').showModal();">Понравилось?</button>
-            <dialog class="nes-dialog" id="dialog-dark-rounded">
-                <form method="dialog">
-                <menu class="dialog-menu">
-                    <button class="nes-btn is-error">Неоч</button>
-                    <button class="nes-btn is-success">АГА!</button>
-                </menu>
-                </form>
-            </dialog>
+            <button type="button" class="restart-button nes-btn is-warning">Перезапустить</button>
         </section>
         <section class="increase-speed">
-            <button type="button" class="nes-btn speed-up-button">Увеличить скорость</button>
+            <button type="button" class="nes-btn speed-up-button">+ скорость</button>
         </section>
         <section class="decrease-speed">
-            <button type="button" class="nes-btn speed-down-button">Уменьшить скорость</button>
+            <button type="button" class="nes-btn speed-down-button">- скорость</button>
         </section>
     </section>
 </body>

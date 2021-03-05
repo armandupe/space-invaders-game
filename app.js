@@ -14,6 +14,7 @@ function startGame() {
         moveLaserInterval = 100,
         removeBoomInterval = 250,
         removeEventListenerInterval = 100,
+        increaseSpeedValue = 400,
         gameOverMsg = 'Game Over',
         winMsg = 'You Win!';
     
@@ -52,12 +53,9 @@ function startGame() {
         }
         squares[currentShooterIndex].classList.add('shooter');
     }
-    document.addEventListener('keydown', moveShooter);
-    //
 
     // Двигаем пришельцев
     function moveInvaders() {
-
         const leftEdge = alienInvaders[0] % width === 0,
               rightEdge = alienInvaders[alienInvaders.length - 1] % width === width - 1;
 
@@ -71,9 +69,7 @@ function startGame() {
         
         for (let i = 0; i < alienInvaders.length; i++) alienInvaders[i] += direction;
 
-        for (let i = 0; i <= alienInvaders.length - 1; i++) {
-            if (!alienInvadersTakenDown.includes(i)) squares[alienInvaders[i]].classList.add('invader');
-        }
+        for (let i = 0; i <= alienInvaders.length - 1; i++) if (!alienInvadersTakenDown.includes(i)) squares[alienInvaders[i]].classList.add('invader');
 
         if (squares[currentShooterIndex].classList.contains('invader', 'shooter')) {
             scoreDisplay.innerHTML = gameOverMsg;
@@ -81,7 +77,7 @@ function startGame() {
         }
 
         for (let i = 0; i < alienInvaders.length; i++) {
-            if (alienInvaders[i] > (squares.length)) {
+            if (alienInvaders[i] > squares.length) {
                 scoreDisplay.innerHTML = gameOverMsg;
                 clearInterval(invadersId);
             }
@@ -92,22 +88,12 @@ function startGame() {
             clearInterval(invadersId);
         }
     }
-   
-    increaseInvadersSpeed.addEventListener('click', () => {
-        invadersId = setInterval(moveInvaders, moveInvadersInterval - 400);
-    }, { once: true });
-
-    decreaseInvadersSpeed.addEventListener('click', () => {
-        invadersId = setInterval(moveInvaders, moveInvadersInterval * 2);
-    }, { once: true });
-
-    invadersId = setInterval(moveInvaders, moveInvadersInterval);
-    //
 
     // Стреляем
     function shoot(e) {
-        let laserId;
-        let currentLaserIndex = currentShooterIndex;
+        let laserId,
+            currentLaserIndex = currentShooterIndex;
+
         function moveLaser() {
             if (squares[currentLaserIndex]) squares[currentLaserIndex].classList.remove('laser');
             
@@ -133,15 +119,25 @@ function startGame() {
         if (e.key === ' ') laserId = setInterval(moveLaser, moveLaserInterval);
         if (e.type === 'click') laserId = setInterval(moveLaser, moveLaserInterval);
     }
+
+    // Изменение скорости движения пришельцев
+    increaseInvadersSpeed.addEventListener('click', () => invadersId = setInterval(moveInvaders, moveInvadersInterval - increaseSpeedValue));
+    decreaseInvadersSpeed.addEventListener('click', () => invadersId = clearInterval(invadersId));
+    invadersId = setInterval(moveInvaders, moveInvadersInterval);
+    
+    // Запуск движения игрока и стрельбы
+    document.addEventListener('keydown', moveShooter);
     document.addEventListener('keydown', shoot);
     fireBtn.addEventListener('click', shoot); 
-    //
 
-    // Запрет стрельбы при game over
+    // Запрет стрельбы и движения при game over
     setInterval(() => {
         if (squares[currentShooterIndex].classList.contains('invader', 'shooter')) {
-            document.removeEventListener('keydown', shoot, false);
             fireBtn.removeEventListener('click', shoot, false); 
+            document.removeEventListener('keydown', shoot, false);
+            document.removeEventListener('keydown', moveShooter, false);
+            squares[currentShooterIndex].classList.remove('shooter');
+            clearInterval(invadersId);
         }    
     }, removeEventListenerInterval);
 
